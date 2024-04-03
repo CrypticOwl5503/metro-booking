@@ -2,7 +2,8 @@ import React from 'react'
 import { Table } from 'react-bootstrap';
 
 export const TicketTable = ({tickets}) => {
-  return (
+
+    return (
     <Table striped bordered hover>
         <thead>
             <tr>
