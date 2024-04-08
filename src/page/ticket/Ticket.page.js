@@ -5,12 +5,23 @@ import tickets from '../../assets/data/dummy-tickets.json'
 import { MessageHistory } from '../../components/message-history/MessageHistory.comp'
 import { UpdateTicket } from '../../components/update-ticket/UpdateTicket.comp'
 import { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 
-const ticket = tickets[0]
+const ticket = tickets[0];
 export const Ticket = () => {
-    const [message, setMessage] = useState('')
+    const {tId} = useParams();
 
-    useEffect(() => {}, [message]);
+    const [message, setMessage] = useState('');
+    const [ticket, setTicket] = useState('')
+
+    useEffect(() => {
+        for (let i = 0; i < tickets.length; i++) {
+            if(tickets[i].id === tId) {
+                setTicket(tickets[i]);
+                continue;
+            }
+        }
+    }, [message, tId]);
 
     const handleOnChange = e =>{
         setMessage(e.target.value)
@@ -29,6 +40,7 @@ export const Ticket = () => {
         </Row>
         <Row>
             <Col className='text-weight-bolder text-secondary'>
+                {tId}
                 <div className="subject">Subject: {ticket.subject}</div>
                 <div className="date">Ticket Opened:{ticket.addedAt}</div>
                 <div className="status">Status: {ticket.status}</div>
@@ -39,7 +51,7 @@ export const Ticket = () => {
         </Row>
         <Row className='mt-4'>
             <Col>
-                <MessageHistory msg={ticket.history} />
+                {ticket.history && <MessageHistory msg={ticket.history} />}
             </Col>
         </Row>
         <hr />
